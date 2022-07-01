@@ -1,8 +1,12 @@
 #pragma once
+#include <map>
+
+using history = std::map<int, int64_t>;
+
 class Fibonacci
 {
 
 public :
-	int Do(int n);
+	int64_t Do(int n, history& h);
 };
 
