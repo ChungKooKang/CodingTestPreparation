@@ -129,9 +129,11 @@
   <ItemGroup>
     <ClCompile Include="Fibonacci.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MoveCaseCalculation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fibonacci.h" />
+    <ClInclude Include="MoveCaseCalculation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
