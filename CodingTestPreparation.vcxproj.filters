@@ -24,12 +24,18 @@
     <ClCompile Include="main.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CanAccumlate.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Fibonacci.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="MoveCaseCalculation.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CanAccumlate.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

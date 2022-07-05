@@ -127,11 +127,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CanAccumlate.cpp" />
     <ClCompile Include="Fibonacci.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MoveCaseCalculation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CanAccumlate.h" />
     <ClInclude Include="Fibonacci.h" />
     <ClInclude Include="MoveCaseCalculation.h" />
   </ItemGroup>

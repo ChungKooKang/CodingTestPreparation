@@ -1,48 +1,69 @@
 #include <iostream>
 #include <vector>
-#include "Fibonacci.h"
-#include "MoveCaseCalculation.h"
+#include <map>
 
-// 정수의 배열 numbers에서 각 원소들을 조합하여 sum을 만들어 낼 수 있는지 확인하는 함수
-// 단 numbers는 양수의 배열
-// sum은 만들기 위해서는 동일한 원소를 여러번 사용해도 가능
+using int_vector = std::vector<int>;
+using history = std::map<int, std::shared_ptr<int_vector>>;
 
-
-// Ex)
-// numbers {2, 3, 5 }
-// sum 8
-// => true (2, 2, 2, 2)
-
-
-
-
-bool CanAccumulate(int sum,const std::vector<int>& numbers)
+std::shared_ptr<int_vector> HowAccumulate(
+	int sum,
+	const int_vector& numbers,
+	std::shared_ptr<history> h
+)
 {
+	// solved ?
+	if (h->count(sum) == 1)
+	{
+		return (*h)[sum];
+	}
 	// base case
 	if (sum == 0)
 	{
-		return true;
+		return std::make_shared<int_vector>();
 	}
 	if (sum < 0)
 	{
-		return false;
+		return nullptr;
 	}
 
 	// recursive case
 	for (auto e : numbers)
 	{
 		int remain = sum - e;
-		if (CanAccumulate(remain, numbers))
+
+		auto result = HowAccumulate(remain, numbers, h);
+
+		if (result != nullptr)
 		{
-			return true;
+			result->push_back(e);
+			(*h)[sum] = result;
+			return (*h)[sum];
 		}
 	}
 
-	return false;
+	(*h)[sum] = nullptr;
+
+	return nullptr;
 }
+
+void Print(std::shared_ptr<int_vector> result)
+{
+	std::cout << "{";
+
+	if (result != nullptr)
+	{
+		for (auto e : *result)
+		{
+			std::cout << e << " ";
+		}
+	}
+
+	std::cout << "}" << std::endl;
+}
+
 int main()
 {
-	std::cout << CanAccumulate(8, { 2, 3, 5 }) << std::endl;
-	std::cout << CanAccumulate(7, { 5, 3, 4, 7 }) << std::endl;
-	std::cout << CanAccumulate(720, { 10, 50, 100, 500 }) << std::endl;
+	Print(HowAccumulate(8, { 2, 3, 5 }, std::make_shared<history>()));
+	Print(HowAccumulate(7, { 1, 4 }, std::make_shared<history>()));
+	Print(HowAccumulate(1000, { 7, 14 }, std::make_shared<history>()));
 }
