@@ -1,69 +1,54 @@
 #include <iostream>
+#include <string>
 #include <vector>
 #include <map>
 
-using int_vector = std::vector<int>;
-using history = std::map<int, std::shared_ptr<int_vector>>;
+// 주어진 문자열의 배열 stringlist의 원소들로 target 문자열을 만들 수 있는 지 : Desition
+// 단 동일한 원소를 여러번 사용해도 됩니다.
+// target이 ""인 경우는 무조건 참입니다.
 
-std::shared_ptr<int_vector> HowAccumulate(
-	int sum,
-	const int_vector& numbers,
-	std::shared_ptr<history> h
-)
+// "abcd"
+// { "a", "b", "c", "d" }
+
+// "abcdef"
+// { "ab", "abc", "cd", "def", "abcd"}
+
+using history = std::map<std::string, bool>;
+
+
+bool CanGenerate(std::string target, const std::vector<std::string>& stringlist, history& h)
 {
-	// solved ?
-	if (h->count(sum) == 1)
+	// solved?
+	if (h.count(target) == 1)
 	{
-		return (*h)[sum];
+		return h[target];
 	}
-	// base case
-	if (sum == 0)
+
+
+	//base case
+	if (target == "")
 	{
-		return std::make_shared<int_vector>();
-	}
-	if (sum < 0)
-	{
-		return nullptr;
+		return true;
 	}
 
 	// recursive case
-	for (auto e : numbers)
+	for (auto e : stringlist)
 	{
-		int remain = sum - e;
-
-		auto result = HowAccumulate(remain, numbers, h);
-
-		if (result != nullptr)
+		if (target.find(e) == 0)
 		{
-			result->push_back(e);
-			(*h)[sum] = result;
-			return (*h)[sum];
+			const std::string subs = target.substr(e.length());
+			if (CanGenerate(subs, stringlist, h))
+			{
+				return true;
+			}
 		}
 	}
-
-	(*h)[sum] = nullptr;
-
-	return nullptr;
+	return false;
 }
-
-void Print(std::shared_ptr<int_vector> result)
-{
-	std::cout << "{";
-
-	if (result != nullptr)
-	{
-		for (auto e : *result)
-		{
-			std::cout << e << " ";
-		}
-	}
-
-	std::cout << "}" << std::endl;
-}
-
 int main()
 {
-	Print(HowAccumulate(8, { 2, 3, 5 }, std::make_shared<history>()));
-	Print(HowAccumulate(7, { 1, 4 }, std::make_shared<history>()));
-	Print(HowAccumulate(1000, { 7, 14 }, std::make_shared<history>()));
+	history h;
+	std::cout << CanGenerate("abcd", { "a", "b", "c" , "d" }, h) << std::endl;
+	h.clear();
+	std::cout << CanGenerate("abcdef", { "ab", "abc", "cd", "def", "abcd" }, h) << std::endl;
 }
