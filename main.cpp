@@ -1,54 +1,74 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <list>
 #include <map>
 
-// 주어진 문자열의 배열 stringlist의 원소들로 target 문자열을 만들 수 있는 지 : Desition
-// 단 동일한 원소를 여러번 사용해도 됩니다.
-// target이 ""인 경우는 무조건 참입니다.
+// using solution = std::list<std::list<std::string>>;
 
-// "abcd"
-// { "a", "b", "c", "d" }
+// {} 
+// solution x;
 
-// "abcdef"
-// { "ab", "abc", "cd", "def", "abcd"}
+// {{}} 
+// solution x { {} };
 
-using history = std::map<std::string, bool>;
+using result = std::list<std::list<std::string>>;
+using history = std::map<std::string, result>;
 
-
-bool CanGenerate(std::string target, const std::vector<std::string>& stringlist, history& h)
+result FindGenerate(std::string target, const std::vector<std::string>& stringList, history& h)
 {
 	// solved?
 	if (h.count(target) == 1)
 	{
 		return h[target];
 	}
-
-
 	//base case
 	if (target == "")
 	{
-		return true;
+		return result{ {} };
 	}
 
-	// recursive case
-	for (auto e : stringlist)
+
+	//recursive case
+
+	result r;				// {};
+
+	for (auto e : stringList)
 	{
 		if (target.find(e) == 0)
 		{
 			const std::string subs = target.substr(e.length());
-			if (CanGenerate(subs, stringlist, h))
+			auto ret = FindGenerate(subs, stringList, h);
+
+			for (auto e2 : ret)
 			{
-				return true;
+				e2.push_front(e);
+				r.push_front(e2);
 			}
 		}
 	}
-	return false;
+	h[target] = r;
+	return r;
+}
+
+void Print(const result& r)
+{
+	std::cout << "{" << std::endl;
+
+	for (auto e1 : r)
+	{
+		std::cout << "\t{";
+		for (auto e2 : e1)
+		{
+			std::cout << e2 << ", ";
+		}
+		std::cout << "}, " << std::endl;
+	}
+
+	std::cout << "}" << std::endl;
 }
 int main()
 {
 	history h;
-	std::cout << CanGenerate("abcd", { "a", "b", "c" , "d" }, h) << std::endl;
-	h.clear();
-	std::cout << CanGenerate("abcdef", { "ab", "abc", "cd", "def", "abcd" }, h) << std::endl;
+	Print(FindGenerate("abcdef", { "ab", "abc", "cd", "def","abcd", "c", "ef"}, h));
 }
