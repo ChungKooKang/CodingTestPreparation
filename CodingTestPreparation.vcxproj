@@ -140,6 +140,10 @@
     <ClInclude Include="ShouldBeRewrite2.h" />
     <ClInclude Include="ShouldBeRewrite3.h" />
     <ClInclude Include="ShouldBeRewrite4.h" />
+    <ClInclude Include="ShouldBeRewrite5.h" />
+    <ClInclude Include="ShouldBeRewrite6.h" />
+    <ClInclude Include="ShouldBeRewrite7.h" />
+    <ClInclude Include="ShouldeBeReWrite8.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
